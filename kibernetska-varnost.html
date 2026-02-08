@@ -741,25 +741,25 @@
         <section class="game-section active" id="intro-screen">
             <div class="intro">
                 <h1>🎯 Phishing Challenge</h1>
-                <p class="intro-subtitle">Ste res lahko prepoznali phishing napade?</p>
+                <p class="intro-subtitle">Boste lahko prepoznali phishing napade?</p>
                 
                 <div class="intro-description">
                     <h3>🔐 Kako deluje izziv?</h3>
                     <ul>
                         <li>Analizirate 5 različnih elektronskih sporočil</li>
                         <li>Za vsak e-mail posebej označite: PHISHING ali VAREN</li>
-                        <li>Takoj dobite povratno informacijo o vaši izbiri</li>
+                        <li>Takoj prejmete povratno informacijo o vaši izbiri</li>
                         <li>Na koncu prejmete rezultat in podrobno analizo</li>
                     </ul>
                 </div>
 
                 <div class="warning-box">
                     <h4>⚠️ Pozor: Realistični scenarij</h4>
-                    <p>Ti e-maili niso očitni phishing poskusi. Uporabljajo napredne tehnike pravih hekerjev. Imate <strong>5 minut časa</strong> za analizo vseh sporočil. 3 od 5 e-mailov so phishing napadi!</p>
+                    <p>Ti e-maili niso očitni phishing poskusi. Uporabljajo napredne tehnike pravih hekerjev. Imate <strong>5 minut časa</strong> za analizo vseh sporočil.</p>
                 </div>
 
                 <button class="btn btn-primary" onclick="startChallenge()">
-                    <span>🚀 Začni izziv</span>
+                    <span>Začni izziv</span>
                 </button>
             </div>
         </section>
@@ -802,7 +802,7 @@
             </div>
 
             <div class="lead-form">
-                <h2 class="form-title" id="form-title">🎁 Prejmite brezplačne vire</h2>
+                <h2 class="form-title" id="form-title">🎁 Prejmite brezplačno darilo</h2>
                 <p class="form-subtitle" id="form-subtitle">Izpolnite obrazec in prejeli boste brezplačni priročnik ter možnost posveta s strokovnjakom</p>
                 
                 <form id="contact-form" onsubmit="submitForm(event)">
@@ -822,7 +822,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
-                        <span>Pošlji in prejmi vire</span>
+                        <span>Pošlji in prejmi darilo</span>
                     </button>
                 </form>
             </div>
@@ -1137,15 +1137,15 @@
             let formSubtitle = '';
             
             if (score === 5) {
-                message = '🏆 Izjemno! Prepoznali ste vse phishing napade in legitimne e-maile! Ste pravi strokovnjak za kibernetsko varnost. Za vašo odličnost vam želimo podariti brezplačni priročnik in možnost posveta z našim strokovnjakom.';
+                message = '🏆 Izjemno! Prepoznali ste vse phishing napade in legitimne e-maile! Ste pravi strokovnjak za kibernetsko varnost. Zaradi vašega popolnega rezultata vam želimo podariti brezplačni priročnik in možnost posveta z našim strokovnjakom.';
                 formTitle = '🎁 Čestitke! Prejmite vašo nagrado';
                 formSubtitle = 'Za vaš odličen rezultat vam pošljemo brezplačni priročnik ter možnost svetovanja s strokovnjakom';
             } else if (score === 4) {
-                message = '👏 Odlično! Prepoznali ste večino groženj. Z malenkostnim dodatnim znanjem boste popolnoma varni. Naš brezplačni priročnik in posvet z strokovnjakom vam bosta pomagala zapolniti še zadnje vrzeli.';
+                message = '👏 Odlično! Prepoznali ste večino groženj. Z malenkostnim dodatnega znanja boste popolnoma varni. Naš brezplačni priročnik in posvet z strokovnjakom vam bosta pomagala zapolniti še zadnje vrzeli.';
                 formTitle = '🎯 Odličen rezultat! Prejmite dodatne vire';
                 formSubtitle = 'Vaše znanje je solidno - naš priročnik in posvet vam bosta pomagala do popolnosti';
             } else if (score === 3) {
-                message = '⚠️ Dobro, vendar je tukaj prostor za izboljšave. Sodobni phishing napadi so vse bolj sofisticirani in lahko pripelje do resnih težav. Naš priročnik in strokovno svetovanje vam bosta pomagala bolje zaščititi sebe in vaše podjetje.';
+                message = '⚠️ Dobro, vendar obstaja prostor za izboljšave. Sodobni phishing napadi so vse bolj sofisticirani in lahko pripeljejo do resnih težav. Naš priročnik in strokovno svetovanje vam bosta pomagala bolje zaščititi sebe in vaše podjetje.';
                 formTitle = '📚 Prejmite vire za izboljšanje';
                 formSubtitle = 'Naš priročnik in brezplačni posvet vam bosta pomagala izboljšati varnost';
             } else {
