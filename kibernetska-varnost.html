@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Challenge | Stroka 365 Security</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #50afb0;
+            --primary-dark: #3d8c8d;
+            --danger: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f2027 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(80, 175, 176, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(80, 175, 176, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: -200px;
+            left: -200px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--danger);
+            bottom: -150px;
+            right: -150px;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(100px, 100px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(80, 175, 176, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 50px;
+            filter: brightness(0) invert(1);
+        }
+
+        .logo-text {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .timer-display {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(80, 175, 176, 0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 2px solid var(--primary);
+            font-size: 1.3em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .timer-display.warning {
+            border-color: var(--warning);
+            background: rgba(243, 156, 18, 0.15);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .timer-display.danger {
+            border-color: var(--danger);
+            background: rgba(231, 76, 60, 0.15);
+            animation: pulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .game-section {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .game-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .intro {
+            text-align: center;
+            max-width: 900px;
+            margin: 80px auto;
+        }
+
+        .intro h1 {
+            font-size: 4em;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #50afb0, #27ae60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: -2px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .intro-subtitle {
+            font-size: 1.4em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            animation: slideDown 0.8s ease-out 0.2s both;
+        }
+
+        .intro-description {
+            background: rgba(80, 175, 176, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: left;
+            animation: slideDown 0.8s ease-out 0.4s both;
+        }
+
+        .intro-description h3 {
+            color: var(--primary);
+            font-size: 1.6em;
+            margin-bottom: 20px;
+        }
+
+        .intro-description ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .intro-description li {
+            padding: 15px 0 15px 35px;
+            position: relative;
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .intro-description li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-size: 1.3em;
+        }
+
+        .warning-box {
+            background: rgba(231, 76, 60, 0.15);
+            border: 2px solid var(--danger);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            animation: slideDown 0.8s ease-out 0.6s both;
+        }
+
+        .warning-box h4 {
+            color: var(--danger);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .warning-box p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 20px 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'IBM Plex Mono', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover:before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 10px 30px rgba(80, 175, 176, 0.3);
+            animation: slideDown 0.8s ease-out 0.8s both;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(80, 175, 176, 0.4);
+        }
+
+        .btn-choice {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            margin: 10px;
+        }
+
+        .btn-choice.phishing {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+        }
+
+        .btn-choice.safe {
+            background: linear-gradient(135deg, var(--success), #229954);
+        }
+
+        .progress-container {
+            background: rgba(80, 175, 176, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 20px 30px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-text {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-bar-container {
+            flex: 1;
+            margin: 0 30px;
+            height: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .score-display {
+            font-size: 1.2em;
+            font-weight: 700;
+            padding: 10px 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .email-container {
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        .email-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(80, 175, 176, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .email-header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-bottom: 1px solid rgba(80, 175, 176, 0.2);
+        }
+
+        .email-from {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .email-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .email-sender-info {
+            flex: 1;
+        }
+
+        .email-sender {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .email-address {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .email-subject {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 15px;
+        }
+
+        .email-body {
+            padding: 25px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .email-body p {
+            margin-bottom: 15px;
+        }
+
+        .email-link {
+            color: var(--primary);
+            text-decoration: underline;
+            word-break: break-all;
+        }
+
+        .email-footer {
+            padding: 20px 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(80, 175, 176, 0.2);
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .choice-buttons {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+
+        .choice-buttons h3 {
+            color: var(--primary);
+            font-size: 1.6em;
+            margin-bottom: 25px;
+        }
+
+        .feedback {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .feedback.correct {
+            border-color: var(--success);
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .feedback.wrong {
+            border-color: var(--danger);
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .feedback-icon {
+            font-size: 3em;
+        }
+
+        .feedback-title {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .feedback-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            margin: 20px 0;
+        }
+
+        .red-flags {
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 4px solid var(--danger);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .red-flags h4 {
+            color: var(--danger);
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .red-flags ul {
+            list-style: none;
+        }
+
+        .red-flags li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .red-flags li:before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            color: var(--danger);
+        }
+
+        .summary {
+            max-width: 900px;
+            margin: 60px auto;
+        }
+
+        .summary-card {
+            background: rgba(80, 175, 176, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .summary-score {
+            font-size: 5em;
+            font-weight: 700;
+            margin: 30px 0;
+            background: linear-gradient(135deg, var(--primary), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .summary-message {
+            font-size: 1.4em;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 30px 0;
+        }
+
+        .lead-form {
+            background: rgba(80, 175, 176, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 700px;
+            margin: 60px auto;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .form-title {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #fff;
+            font-size: 1.1em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 1.1em;
+            border: 2px solid rgba(80, 175, 176, 0.3);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: 'IBM Plex Mono', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(80, 175, 176, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 60px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .success-icon {
+            font-size: 5em;
+            margin-bottom: 30px;
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+
+        .success-text {
+            font-size: 1.3em;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .intro h1 {
+                font-size: 2.5em;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .timer-display {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .progress-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .progress-bar-container {
+                width: 100%;
+                margin: 0;
+            }
+
+            .lead-form {
+                padding: 30px 20px;
+            }
+
+            .btn-choice {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="https://www.stroka.si/Portals/_default/logo_stroka_si_white.png?ver=2025-06-04-113611-483&timestamp=1749029751774" alt="Stroka.si">
+                <span class="logo-text">Security</span>
+            </div>
+            <div class="timer-display" id="timer" style="display: none;">
+                <span>⏱</span>
+                <span id="timer-value">05:00</span>
+            </div>
+        </header>
+
+        <!-- Intro Screen -->
+        <section class="game-section active" id="intro-screen">
+            <div class="intro">
+                <h1>🎯 Phishing Challenge</h1>
+                <p class="intro-subtitle">Ste res lahko prepoznali phishing napade?</p>
+                
+                <div class="intro-description">
+                    <h3>🔐 Kako deluje izziv?</h3>
+                    <ul>
+                        <li>Analizirate 5 različnih elektronskih sporočil</li>
+                        <li>Za vsak e-mail posebej označite: PHISHING ali VAREN</li>
+                        <li>Takoj dobite povratno informacijo o vaši izbiri</li>
+                        <li>Na koncu prejmete rezultat in podrobno analizo</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h4>⚠️ Pozor: Realistični scenarij</h4>
+                    <p>Ti e-maili niso očitni phishing poskusi. Uporabljajo napredne tehnike pravih hekerjev. Imate <strong>5 minut časa</strong> za analizo vseh sporočil. 3 od 5 e-mailov so phishing napadi!</p>
+                </div>
+
+                <button class="btn btn-primary" onclick="startChallenge()">
+                    <span>🚀 Začni izziv</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Email Screen -->
+        <section class="game-section" id="email-screen">
+            <div class="progress-container">
+                <div class="progress-text" id="progress-text">E-MAIL 1/5</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 20%"></div>
+                </div>
+                <div class="score-display" id="score-display">Točke: 0/0</div>
+            </div>
+
+            <div class="email-container" id="email-container">
+                <!-- Email will be dynamically inserted here -->
+            </div>
+
+            <div class="choice-buttons" id="choice-buttons">
+                <h3>Je to phishing napad?</h3>
+                <button class="btn btn-choice phishing" onclick="makeChoice(true)">
+                    <span>⚠️ PHISHING</span>
+                </button>
+                <button class="btn btn-choice safe" onclick="makeChoice(false)">
+                    <span>✓ VAREN E-MAIL</span>
+                </button>
+            </div>
+
+            <div id="feedback-container"></div>
+        </section>
+
+        <!-- Summary Screen -->
+        <section class="game-section" id="summary-screen">
+            <div class="summary">
+                <div class="summary-card">
+                    <h2 style="color: var(--primary); font-size: 2.5em; margin-bottom: 20px;">Vaš rezultat</h2>
+                    <div class="summary-score" id="final-score">0/5</div>
+                    <div class="summary-message" id="summary-message"></div>
+                </div>
+            </div>
+
+            <div class="lead-form">
+                <h2 class="form-title" id="form-title">🎁 Prejmite brezplačne vire</h2>
+                <p class="form-subtitle" id="form-subtitle">Izpolnite obrazec in prejeli boste brezplačni priročnik ter možnost posveta s strokovnjakom</p>
+                
+                <form id="contact-form" onsubmit="submitForm(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Ime in priimek *</label>
+                        <input type="text" id="name" class="form-input" placeholder="Janez Novak" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="company">Podjetje *</label>
+                        <input type="text" id="company" class="form-input" placeholder="Ime podjetja d.o.o." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">E-mail naslov *</label>
+                        <input type="email" id="email" class="form-input" placeholder="ime.priimek@podjetje.si" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                        <span>Pošlji in prejmi vire</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Success Screen -->
+        <section class="game-section" id="success-screen">
+            <div class="success-message">
+                <div class="success-icon">✅</div>
+                <h2 class="success-title">Hvala za prijavo!</h2>
+                <p class="success-text">
+                    Vaša prijava je bila uspešno poslana.<br><br>
+                    V kratkem boste na e-mail naslov prejeli:<br>
+                    📚 <strong>Brezplačni priročnik o kibernetski varnosti</strong><br>
+                    🎯 <strong>Termin za brezplačno uro posveta</strong><br><br>
+                    Naša ekipa vas bo kontaktirala v roku 2 delovnih dni.<br><br>
+                    <strong style="color: var(--primary);">Stroka 365 Security - Vaša varnost je naša prednostna naloga.</strong>
+                </p>
+                
+                <button class="btn btn-primary" onclick="location.reload()" style="margin-top: 50px;">
+                    <span>🔄 Poskusi ponovno</span>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxBRaRZtFGhhpVl9v2OVRn17NWy2FEG-_SUHiCApExK2ZIs4j1AXHp6LLErmmzJl9XElg/exec';
+        
+        const emails = [
+            {
+                id: 1,
+                isPhishing: false,
+                sender: "Microsoft 365",
+                email: "no-reply@microsoft.com",
+                subject: "Obnovitev vaše Microsoft 365 naročnine",
+                body: `<p>Pozdravljeni,</p>
+                    <p>Vaša Microsoft 365 Business Premium naročnina bo avtomatsko obnovljena čez 7 dni. Znesek 15,99 € bo zaračunan na vaš račun.</p>
+                    <p>Podrobnosti naročnine:</p>
+                    <p>• Paket: Microsoft 365 Business Premium<br>
+                    • Uporabnikov: 1<br>
+                    • Datum obnove: 14. februar 2026<br>
+                    • Način plačila: •••• 4532</p>
+                    <p>Če želite spremeniti naročnino ali način plačila, se prijavite v svoj račun.</p>
+                    <p>Lep pozdrav,<br>Microsoft ekipa</p>`,
+                timestamp: "07. feb 2026, 09:43",
+                explanation: "Ta e-mail je legitimen. Microsoft uporablja uradno domeno microsoft.com, sporočilo je informativno brez nujnosti, ne zahteva klikanja linkov, vsebuje specifične podatke o naročnini in nima nenavadnih zahtev.",
+                redFlags: []
+            },
+            {
+                id: 2,
+                isPhishing: true,
+                sender: "NLB Banka",
+                email: "nlb-obvestila@nlb-si.com",
+                subject: "Pomembno: Potrditev vaše transakcije",
+                body: `<p>Spoštovani,</p>
+                    <p>Zaznali smo poskus prijave v vaš Klikin račun iz nove naprave (Windows 11, Firefox, Ljubljana). Če ste to bili vi, prosimo potrdite transakcijo za zaključitev prijave.</p>
+                    <p>Podatki o prijavi:</p>
+                    <p>• Čas: 07.02.2026, 14:23<br>
+                    • Naprava: Windows 11<br>
+                    • Lokacija: Ljubljana, Slovenija<br>
+                    • IP naslov: 188.230.124.67</p>
+                    <p>Če tega niste vi, takoj blokirajte dostop:</p>
+                    <p><a href="#" class="email-link">https://klikin.nlb-si.com/verify?session=8f4a2b9c</a></p>
+                    <p>Vaši podatki so zaščiteni. Če ne potrdite v 24 urah, bo dostop avtomatsko blokiran iz varnostnih razlogov.</p>
+                    <p>Lep pozdrav,<br>NLB varnostna ekipa</p>`,
+                timestamp: "07. feb 2026, 14:31",
+                explanation: "To je phishing napad! E-mail uporablja skoraj popolno kopijo NLB sporočila, vendar z kritičnimi napakami.",
+                redFlags: [
+                    "Domena: 'nlb-si.com' namesto pravilne 'nlb.si' - subtilna, a kritična razlika",
+                    "Časovna nujnost: Ustvarja strah s sporočili 'takoj blokirajte' in '24 ur'",
+                    "Lažen URL: Povezava vodi na nlb-si.com, ne na uradno nlb.si domeno",
+                    "NLB ne pošilja e-mailov s kliki na link za preverjanje prijav - uporablja SMS",
+                    "Generičen pozdrav: 'Spoštovani' namesto pravega imena stranke"
+                ]
+            },
+            {
+                id: 3,
+                isPhishing: false,
+                sender: "Telekom Slovenije",
+                email: "racuni@telekom.si",
+                subject: "Vaš e-račun za januar 2026",
+                body: `<p>Spoštovani naročnik,</p>
+                    <p>Na voljo je vaš e-račun za januar 2026. Račun je na voljo v prilogi in v vašem profilu Moj Telekom.</p>
+                    <p>Pregled računa:</p>
+                    <p>• Številka računa: 2026-01-94857<br>
+                    • Znesek: 89,90 €<br>
+                    • Rok plačila: 22. februar 2026<br>
+                    • Telefon: 031 XXX XXX</p>
+                    <p>Račun lahko pogledate in plačate tudi preko Mojega Telekoma:</p>
+                    <p><a href="#" class="email-link">https://moj.telekom.si/racuni</a></p>
+                    <p>Hvala za zaupanje.</p>
+                    <p>Lep pozdrav,<br>Telekom Slovenije</p>`,
+                timestamp: "05. feb 2026, 08:15",
+                explanation: "Ta e-mail je legitimen. Telekom Slovenije uporablja uradno domeno telekom.si, gre za rutinsko mesečno obvestilo brez nujnosti, računi so standardno v PDF formatu, vsebuje konkretne podatke in ponuja alternativno dostop preko portala brez obveznega klika.",
+                redFlags: []
+            },
+            {
+                id: 4,
+                isPhishing: true,
+                sender: "DHL Express Slovenia",
+                email: "info@dhl-slovenija.com",
+                subject: "Vaša pošiljka čaka na doplačilo - DHL793846201",
+                body: `<p>Pozdravljeni,</p>
+                    <p>Vaša mednarodna pošiljka DHL793846201 je prispela v Slovenijo, vendar ne more biti dostavljena zaradi manjkajoče carinske dokumentacije.</p>
+                    <p>Podrobnosti pošiljke:</p>
+                    <p>• Številka: DHL793846201<br>
+                    • Pošiljatelj: Amazon EU S.à r.l.<br>
+                    • Teža: 2.4 kg<br>
+                    • Carinski davek: 8,50 €</p>
+                    <p>Za dokončanje dostave kliknite na povezavo in opravite plačilo carinine:</p>
+                    <p><a href="#" class="email-link">https://dhl-slovenija.com/dostava/dokument?ref=793846201</a></p>
+                    <p>Če plačilo ne bo opravljeno v 48 urah, bo pošiljka vrnjena pošiljatelju.</p>
+                    <p>Lep pozdrav,<br>DHL Express Slovenia</p>`,
+                timestamp: "08. feb 2026, 11:05",
+                explanation: "To je phishing napad! Zelo sofisticiran poskus, ki uporablja priljubljen scenarij z dostavo paketa.",
+                redFlags: [
+                    "Domena: 'dhl-slovenija.com' namesto uradne 'dhl.si' ali 'dhl.com'",
+                    "Časovni pritisk: '48 ur' za ustvarjanje panike in hitre reakcije",
+                    "Lažen URL: Povezava ne vodi na uradno DHL stran",
+                    "DHL carinske davke obračuna PRED dostavo, ne zahteva online plačila",
+                    "Generičen pozdrav brez imena prejemnika",
+                    "Tracking številka ne sledi DHL formatu (pravilno: 10-12 številk brez črk)"
+                ]
+            },
+            {
+                id: 5,
+                isPhishing: true,
+                sender: "FURS - Finančna uprava RS",
+                email: "noreply@fu-rs.si",
+                subject: "Obvestilo o davčnem vračilu - ref. SI20260208",
+                body: `<p>Spoštovani davčni zavezanec,</p>
+                    <p>Obveščamo vas, da ste upravičeni do vračila preveč plačanih davkov za leto 2025 v višini 847,00 EUR.</p>
+                    <p>Referenčna številka: SI20260208-VRACILO<br>
+                    Leto: 2025<br>
+                    Znesek vračila: 847,00 EUR<br>
+                    Status: V OBDELAVI</p>
+                    <p>Za dokončanje postopka vračila morate potrditi vaše bančne podatke in izpolniti obrazec:</p>
+                    <p><a href="#" class="email-link">https://fu-rs.si/portal/vracilo?ref=SI20260208</a></p>
+                    <p>Postopek morate zaključiti v 7 dneh, sicer bo vračilo stornirano.</p>
+                    <p>Finančna uprava Republike Slovenije<br>
+                    Šmartinska cesta 55, Ljubljana</p>`,
+                timestamp: "08. feb 2026, 13:22",
+                explanation: "To je phishing napad! Zelo nevaren, saj cilja na finančne podatke in uporablja ugled državne institucije.",
+                redFlags: [
+                    "Domena: 'fu-rs.si' namesto uradne 'gov.si/fu' ali 'fu.gov.si'",
+                    "FURS NIKOLI ne pošilja obvestil o vračilih po e-pošti - vse poteka prek eDavkov",
+                    "Časovni pritisk: '7 dni' za ustvarjanje urgence",
+                    "Zahteva za vnos bančnih podatkov - FURS jih že ima v sistemu",
+                    "Generičen pozdrav 'davčni zavezanec' namesto osebnih podatkov",
+                    "Obljuba denarja je klasična phishing tehnika za pridobitev zaupanja"
+                ]
+            }
+        ];
+
+        let currentEmailIndex = 0;
+        let score = 0;
+        let answered = 0;
+        let timeLeft = 300; // 5 minutes
+        let timerInterval = null;
+        let userAnswers = [];
+
+        function startChallenge() {
+            document.getElementById('intro-screen').classList.remove('active');
+            document.getElementById('email-screen').classList.add('active');
+            document.getElementById('timer').style.display = 'flex';
+            showEmail(0);
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                const timerDisplay = document.getElementById('timer-value');
+                const timerElement = document.getElementById('timer');
+                
+                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                
+                if (timeLeft === 60) {
+                    timerElement.classList.add('warning');
+                }
+                
+                if (timeLeft === 30) {
+                    timerElement.classList.remove('warning');
+                    timerElement.classList.add('danger');
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showSummary();
+                }
+            }, 1000);
+        }
+
+        function showEmail(index) {
+            const email = emails[index];
+            const container = document.getElementById('email-container');
+            
+            container.innerHTML = `
+                <div class="email-card">
+                    <div class="email-header">
+                        <div class="email-from">
+                            <div class="email-avatar">${email.sender.charAt(0)}</div>
+                            <div class="email-sender-info">
+                                <div class="email-sender">${email.sender}</div>
+                                <div class="email-address">${email.email}</div>
+                            </div>
+                        </div>
+                        <div class="email-subject">${email.subject}</div>
+                    </div>
+                    <div class="email-body">
+                        ${email.body}
+                    </div>
+                    <div class="email-footer">
+                        ${email.timestamp}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('progress-text').textContent = `E-MAIL ${index + 1}/5`;
+            document.getElementById('progress-bar').style.width = `${(index + 1) * 20}%`;
+            document.getElementById('score-display').textContent = `Točke: ${score}/${answered}`;
+            document.getElementById('feedback-container').innerHTML = '';
+            document.getElementById('choice-buttons').style.display = 'block';
+        }
+
+        function makeChoice(userSaysPhishing) {
+            const email = emails[currentEmailIndex];
+            const isCorrect = userSaysPhishing === email.isPhishing;
+            
+            answered++;
+            if (isCorrect) score++;
+
+            userAnswers.push({
+                emailId: email.id,
+                userChoice: userSaysPhishing,
+                correct: isCorrect
+            });
+
+            showFeedback(email, isCorrect, userSaysPhishing);
+            document.getElementById('choice-buttons').style.display = 'none';
+        }
+
+        function showFeedback(email, isCorrect, userSaysPhishing) {
+            const container = document.getElementById('feedback-container');
+            
+            let feedbackHTML = `
+                <div class="feedback ${isCorrect ? 'correct' : 'wrong'}">
+                    <div class="feedback-header">
+                        <div class="feedback-icon">${isCorrect ? '✅' : '❌'}</div>
+                        <div class="feedback-title">
+                            ${isCorrect ? 
+                                (email.isPhishing ? 'Pravilno! To je bil phishing!' : 'Pravilno! E-mail je varen!') :
+                                (email.isPhishing ? 'Napaka! To je bil phishing napad!' : 'Napaka! E-mail je bil varen!')
+                            }
+                        </div>
+                    </div>
+                    <div class="feedback-description">
+                        <p>${email.explanation}</p>
+                    </div>
+            `;
+
+            if (email.isPhishing && email.redFlags.length > 0) {
+                feedbackHTML += `
+                    <div class="red-flags">
+                        <h4>🚨 Rdeče zastavice:</h4>
+                        <ul>
+                            ${email.redFlags.map(flag => `<li>${flag}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            feedbackHTML += `
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="btn btn-primary" onclick="nextEmail()">
+                            <span>${currentEmailIndex < emails.length - 1 ? 'Naprej na naslednji e-mail →' : 'Poglej rezultate →'}</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = feedbackHTML;
+            
+            // Update score display
+            document.getElementById('score-display').textContent = `Točke: ${score}/${answered}`;
+        }
+
+        function nextEmail() {
+            currentEmailIndex++;
+            
+            if (currentEmailIndex < emails.length) {
+                showEmail(currentEmailIndex);
+            } else {
+                showSummary();
+            }
+        }
+
+        function showSummary() {
+            clearInterval(timerInterval);
+            
+            document.getElementById('email-screen').classList.remove('active');
+            document.getElementById('summary-screen').classList.add('active');
+            
+            document.getElementById('final-score').textContent = `${score}/5`;
+            
+            let message = '';
+            let formTitle = '';
+            let formSubtitle = '';
+            
+            if (score === 5) {
+                message = '🏆 Izjemno! Prepoznali ste vse phishing napade in legitimne e-maile! Ste pravi strokovnjak za kibernetsko varnost. Za vašo odličnost vam želimo podariti brezplačni priročnik in možnost posveta z našim strokovnjakom.';
+                formTitle = '🎁 Čestitke! Prejmite vašo nagrado';
+                formSubtitle = 'Za vaš odličen rezultat vam pošljemo brezplačni priročnik ter možnost svetovanja s strokovnjakom';
+            } else if (score === 4) {
+                message = '👏 Odlično! Prepoznali ste večino groženj. Z malenkostnim dodatnim znanjem boste popolnoma varni. Naš brezplačni priročnik in posvet z strokovnjakom vam bosta pomagala zapolniti še zadnje vrzeli.';
+                formTitle = '🎯 Odličen rezultat! Prejmite dodatne vire';
+                formSubtitle = 'Vaše znanje je solidno - naš priročnik in posvet vam bosta pomagala do popolnosti';
+            } else if (score === 3) {
+                message = '⚠️ Dobro, vendar je tukaj prostor za izboljšave. Sodobni phishing napadi so vse bolj sofisticirani in lahko pripelje do resnih težav. Naš priročnik in strokovno svetovanje vam bosta pomagala bolje zaščititi sebe in vaše podjetje.';
+                formTitle = '📚 Prejmite vire za izboljšanje';
+                formSubtitle = 'Naš priročnik in brezplačni posvet vam bosta pomagala izboljšati varnost';
+            } else {
+                message = '📚 Kibernetske grožnje so vse bolj prefinjene in lahko povzročijo veliko škodo. Ne skrbite - z ustreznim znanjem in orodji lahko učinkovito zaščitite sebe in svoje podjetje. Pridobite naš brezplačni priročnik in se pogovorite z našim strokovnjakom za konkretne korake naprej.';
+                formTitle = '🛡️ Prejmite pomoč strokovnjakov';
+                formSubtitle = 'Z našim priročnikom in strokovno pomočjo boste vaše podjetje učinkovito zaščitili';
+            }
+            
+            document.getElementById('summary-message').textContent = message;
+            document.getElementById('form-title').textContent = formTitle;
+            document.getElementById('form-subtitle').textContent = formSubtitle;
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function submitForm(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const company = document.getElementById('company').value;
+            const email = document.getElementById('email').value;
+            
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<span>Pošiljam...</span>';
+            submitButton.disabled = true;
+            
+            try {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('company', company);
+                formData.append('email', email);
+                formData.append('score', `${score}/5`);
+                formData.append('timestamp', new Date().toLocaleString('sl-SI'));
+                
+                // Add detailed answers
+                const answersDetail = userAnswers.map((ans, idx) => {
+                    const emailData = emails[idx];
+                    return `Email ${idx + 1} (${emailData.subject}): ${ans.correct ? 'PRAVILNO' : 'NAPAČNO'}`;
+                }).join(' | ');
+                formData.append('answers', answersDetail);
+                
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    document.getElementById('summary-screen').classList.remove('active');
+                    document.getElementById('success-screen').classList.add('active');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Prišlo je do napake pri pošiljanju. Prosimo, poskusite ponovno ali nas kontaktirajte na ccc@stroka.si');
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
